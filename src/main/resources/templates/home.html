@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Votre Cuisine - Accueil</title>
+</head>
+<body>
+    <div class="sidebar">
+        <h3>Catégories</h3>
+        <ul>
+            <li th:each="category : ${categories}">
+                <a th:href="@{/categories/{category}(category=${category})}" th:text="${category}">Catégorie</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>Recettes Populaires</h1>
+        <div th:each="recette : ${recettes}">
+            <div>
+                <h2 th:text="${recette.titre}"></h2>
+                <p th:text="${recette.categorie}"></p>
+                <p>Likes: <span th:text="${recette.likes}"></span></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
