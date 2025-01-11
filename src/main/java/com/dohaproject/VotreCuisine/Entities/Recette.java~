@@ -1,0 +1,123 @@
+package com.dohaproject.VotreCuisine.Entities;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
+
+@Entity
+@Table(name = "recettes")
+@Data
+public class Recette {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(nullable = false)
+    private String titre;
+
+
+
+
+
+
+
+
+
+    @Column(name = "temps_preparation")
+    private String tempsPreparation;
+
+	@Column(name = "ingredients", columnDefinition = "TEXT")
+	@ElementCollection(fetch = FetchType.EAGER)
+    private List<String> ingredients;
+
+    @Column(name = "etapes_preparation", columnDefinition = "TEXT")
+    private String etapesPreparation;
+
+    private int likes;
+
+
+	//une table d'asscociation ---fAVORIS--- entre recette et utilisateur many to many cote base de donnee
+	@ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "Favoris",
+        joinColumns = @JoinColumn(name = "recepe_id"),
+        inverseJoinColumns = @JoinColumn(name = "User_id")
+    )
+	private List<Utilisateur> utilisateursLikes;
+
+
+
+
+
+
+	//une table d'asscociation ---VISITED--- entre recette et utilisateur many to many cote base de donnee
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "recette_utilisateurs_visites",
+        joinColumns = @JoinColumn(name = "recette_id"),
+        inverseJoinColumns = @JoinColumn(name = "utilisateur_id")
+    )
+    private List<Utilisateur> utilisateursVisites;
+
+
+
+
+    @ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_categorie")
+	private Category categorie;
+
+
+	@Override
+	public String toString() {
+		return "Recette{" +
+				"id=" + id +
+				", titre='" + titre + '\'' +
+				", tempsPreparation='" + tempsPreparation + '\'' +
+				", ingredients=" + ingredients +
+				", etapesPreparation='" + etapesPreparation + '\'' +
+				", likes=" + likes +
+				", utilisateursLikes=" + utilisateursLikes +
+				", utilisateursVisites=" + utilisateursVisites +
+				", categorie=" + categorie +
+				'}';
+	}
+
+	public Recette() {
+		super();
+	}
+
+	public Recette(String titre,
+				   Category categorie,
+				   String tempsPreparation,
+				   List<String> ingredients,
+					String etapesPreparation) {
+		this.titre = titre;
+		this.categorie = categorie;
+		this.tempsPreparation = tempsPreparation;
+		this.ingredients = ingredients;
+		this.etapesPreparation = etapesPreparation;
+	}
+	
+//
+//	// Getters, setters et méthodes personnalisées
+//    public void ajouterLike(Utilisateur utilisateur) {
+//        if (!utilisateursLikes.contains(utilisateur)) {
+//            utilisateursLikes.add(utilisateur);
+//            likes++;
+//        }
+//    }
+//
+//    public void retirerLike(Utilisateur utilisateur) {
+//        if (utilisateursLikes.remove(utilisateur)) {
+//            likes--;
+//        }
+//    }
+//
+//    public void ajouterVisite(Utilisateur utilisateur) {
+//        if (!utilisateursVisites.contains(utilisateur)) {
+//            utilisateursVisites.add(utilisateur);
+//        }
+//    }
+}
