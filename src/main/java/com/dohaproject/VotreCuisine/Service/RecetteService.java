@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @NoArgsConstructor
 public class RecetteService {
@@ -47,4 +49,14 @@ public class RecetteService {
         );
 
         return recetteRepository.save(recette);}
+
+    public List<Recette> findRecettesByCategory(int categoryId) {
+        // Vérifier si la catégorie existe
+        categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Catégorie non trouvée"));
+
+        // Retourner la liste des recettes correspondant à la catégorie
+        return recetteRepository.findByCategorieId(categoryId);
+    }
+
 }

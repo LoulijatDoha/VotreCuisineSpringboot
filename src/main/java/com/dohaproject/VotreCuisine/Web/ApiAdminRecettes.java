@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
+
 @RestController
 @RequestMapping("/api/admin")
 public class ApiAdminRecettes {
@@ -32,6 +34,13 @@ public class ApiAdminRecettes {
     public ResponseEntity<List<Recette>> getAllRecettes() {
         List<Recette> recettes = recetteRepository.findAll();
         return ResponseEntity.ok(recettes);
+    }
+
+    // Ajouter dans ApiAdminRecettes.java
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<Recette>> getRecettesByCategory(@PathVariable int categoryId) {
+        List<Recette> recettescategories = recetteRepository.findByCategorieId(categoryId);
+        return ResponseEntity.ok(recettescategories);
     }
 
     // Récupérer une recette par ID

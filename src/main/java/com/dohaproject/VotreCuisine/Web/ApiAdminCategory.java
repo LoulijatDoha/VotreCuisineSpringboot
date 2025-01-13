@@ -12,6 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+
+@CrossOrigin("*")
 @Controller
 @RequestMapping(value = "/api/admin/categories")
 @NoArgsConstructor
@@ -21,6 +25,13 @@ public class ApiAdminCategory {
     @Autowired private CategoryService categoryService;
 
 
+    //Récupérer toutes catégories
+    @GetMapping
+    public ResponseEntity<List<Category>> getAllCategories() {
+        List<Category> categories= categoryRepository.findAll();
+        return ResponseEntity.ok(categories);
+    }
+
     // Récupérer une catégorie par ID
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable int id) {
@@ -28,6 +39,8 @@ public class ApiAdminCategory {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+
 
     // Supprimer une catégorie
     @DeleteMapping("/{id}")

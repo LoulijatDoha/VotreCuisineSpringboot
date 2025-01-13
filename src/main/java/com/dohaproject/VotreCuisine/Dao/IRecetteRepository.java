@@ -18,6 +18,7 @@ public interface IRecetteRepository extends JpaRepository<Recette, Integer>{
     //find recete by categorie
     List<Recette> findByCategorie_Name(String categorieNom);
     List<Recette> findByCategorie(Category category);
+    List<Recette> findByCategorieId(int categoryId);
 
 
  
